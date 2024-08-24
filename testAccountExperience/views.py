@@ -1,18 +1,18 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.template import loader
+
+""" Example syntax
+def home(request):
+  context = {"name": "Junior"}
+  template = loader.get_template("app/home.html")
+  return HttpResponse(template.render(context))
+"""
 
 # Create your views here.
-from django.template import loader
-def home():
+
+def home(request):
   template = loader.get_template("testAccountExperience/homePage.html")
-  return HttpResponse(template.render())
+  context = {"answer": "yes"}
+  return HttpResponse(template.render(context))
 
 
-# from django.shortcuts import render
-# from django.http import HttpResponse
-# from django.template import loader
-#
-# def home(request):
-#   context = {"name": "Spot"}
-#   return HttpResponse(template.render(context))
-#   return render(request, "vetoffice/home.html", con

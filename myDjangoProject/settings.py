@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Todo: this is where new apps must be added
-    'testAccountExperience.apps.TestAccountExperienceConfig',
+    'testAccountExperience.apps.TestaccountexperienceConfig',
 ]
 
 MIDDLEWARE = [
