@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>home page</title>
-</head>
-<body>
-<h1>Hello World</h1>
+{% extends "testAccountExperience/base.html" %}
+
+{% block title %}
+home page
+{% endblock %}
+
+{% block header %}
+<h1>Home Page</h1>
+{% endblock %}
+
+{% block content %}
 <p>This is the home page</p>
 <p>does this work? {{ answer }}</p>
-
-</body>
-</html>
+{% endblock %}

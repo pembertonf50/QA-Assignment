@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Hello World!{% endblock %}</title>
+    {% block styles %}
+    <!-- Default styles can go here -->
+    <!-- Todo: Add base styles here -->
+    <!-- <link rel="stylesheet" href=""> -->
+    {% endblock %}
+</head>
+<body>
+    <header>
+        {% block header %}
+        <!-- Default header content -->
+        <h1>Hello World!</h1>
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Default content -->
+        <p>Welcome to my website!</p>
+        {% endblock %}
+    </main>
+
+    <footer>
+        {% block footer %}
+        <!-- Default footer content -->
+        <p>&copy; 2024 My Website</p>
+        {% endblock %}
+    </footer>
+
+    {% block scripts %}
+    <!-- Default scripts can go here -->
+    <!-- Todo: Add base javascript here -->
+    <!-- <script src=""></script> -->
+    {% endblock %}
+</body>
+</html>
