@@ -1,0 +1,31 @@
+{% extends "testAccountExperience/base.html" %}
+
+{% block header %}
+    <button>Test Account Experience</button>
+{% endblock %}
+
+{% block content %}
+
+    <section id="general form">
+        <h1>{% block formTitle %}{% endblock %} Test Account Experience</h1>
+        <form action="{% block formAction %}{% endblock %}" method="POST">
+
+            {% block formEmail %}
+                <label for="email">Enter email</label>
+                <input id="email" name="email">
+            {% endblock %}
+
+            {% block formPassword %}
+                <label for="password">Enter password</label>
+                <input type="password" id="password" name="password">
+            {% endblock %}
+
+            <input type="submit" value="{% block continueText %}{% endblock %}">
+
+        </form>
+    </section>
+
+    {% block resetCodeForm %}{% endblock %}
+    {% block outsideFormLink %}{% endblock %}
+
+{% endblock %}

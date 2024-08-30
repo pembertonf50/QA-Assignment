@@ -5,10 +5,98 @@ home page
 {% endblock %}
 
 {% block header %}
-<h1>Home Page</h1>
+    <span>Test Account Experience</span>
+    {% if userInfo.loggedIn %}
+        <button>Hello {{ userInfo.email }}</button>
+    {% else %}
+    <button>login/signup</button>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
-<p>This is the home page</p>
-<p>does this work? {{ answer }}</p>
+    <form action="not sure yet" method="POST">
+        <label for="location">Account location</label>
+        <br>
+        <input type="text" list="locations" id="location" name="location">
+        <br>
+
+        <datalist id="locations">
+            <option value="United Kingdom"></option>
+            <option value="Japan"></option>
+            <option value="United States"></option>
+            <option value="Mexico"></option>
+            <option value="Brazil"></option>
+            <option value="India"></option>
+        </datalist>
+
+        <label for="language">Account language</label>
+        <br>
+        <input type="text" list="languages" id="language" name="language">
+        <br>
+
+        <datalist id="languages">
+            <option value="English"></option>
+            <option value="Japanese"></option>
+            <option value="Spanish"></option>
+            <option value="French"></option>
+            <option value="Portuguese"></option>
+            <option value="German"></option>
+        </datalist>
+
+        <label for="subscriptions">Account subscriptions</label>
+        <br>
+        <select id="subscriptions" name="subscriptions" multiple>
+            <option value="PrimeVideo">PrimeVideo</option>
+            <option value="Prime">Prime</option>
+            <option value="HBO">HBO</option>
+            <option value="Paramount+">Paramount+</option>
+        </select>
+
+
+        <p>Card saved?</p>
+        <input type="radio" id="card saved" name="card" value="yes">
+        <label for="card saved">Yes</label>
+        <input type="radio" id="card not saved" name="card" value="no">
+        <label for="card not saved">No</label>
+
+        <p>Address saved?</p>
+        <input type="radio" id="address saved" name="address" value="yes">
+        <label for="address saved">Yes</label>
+        <input type="radio" id="address not saved" name="address" value="no">
+        <label for="address not saved">No</label>
+        <br>
+
+        <input type="submit" value="Create account">
+
+    </form>
+
+
+
+    <table>
+    <tr>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Location</th>
+        <th>Language</th>
+        <th>Subscriptions</th>
+        <th>Card</th>
+        <th>Address</th>
+        <th>Experience</th>
+        <th>Removal</th>
+    </tr>
+
+        {% for item in accounts %}
+            <tr>
+            <td>{{ item.email }}</td>
+            <td>{{ item.password }}</td>
+            <td>{{ item.location|title }}</td>
+            <td>{{ item.language|title }}</td>
+            <td>{{ item.subscriptions }}</td>
+            <td>{{ item.card }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.experiences }}</td>
+            <td>Remove</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}

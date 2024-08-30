@@ -1,0 +1,11 @@
+{% extends "testAccountExperience/logIn_signUp_base.html" %}
+
+{% block title %}login page{% endblock %}
+{% block formTitle %}Login to{% endblock %}
+{% block formAction %}<!-- Todo: Add link -->{% endblock %}
+{% block formPassword %}
+    {{ block.super }}
+    <a>Forgot password?</a>
+{% endblock %}
+{% block continueText %}Login{% endblock %}
+{% block outsideFormLink %}<a>Signup</a>{% endblock %}
