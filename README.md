@@ -70,6 +70,19 @@ python3 manage.py migrate // used to configure the django database if migrations
 
 python3 manage.py startapp <app name> // creates an app folder containing files related 
 
+Models are used to setup database schema and commands can be used to run the necessary sql commands:
+python3 manage.py makemigrations <app name> // this will create a script to be run in migrations folder
+
+python3 manage.py migrate // this command is used to run the generated script to make changes to the database schema
+
+python3 manage.py showmigrations <app name> // this is used to display the generated scripts from makemigrations such as:
+0001_initial.py
+0002_gardenmap.py
+0003_gardenemployees.py
+
+python3 manage.py migrate <app name> 0002 // this would remove 0003 and revert back to 0002
+
+
 
 ## Usage ##
 Provide instructions on how to use the application. This might include:
