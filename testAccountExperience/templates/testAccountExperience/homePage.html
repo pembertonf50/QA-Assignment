@@ -8,6 +8,8 @@ home page
     <span>Test Account Experience</span>
     {% if userInfo.loggedIn %}
         <button>Hello {{ userInfo.email }}</button>
+        <button>logout</button>
+        <button>Delete Account</button>
     {% else %}
     <button>login/signup</button>
     {% endif %}

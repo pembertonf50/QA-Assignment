@@ -1,3 +1,5 @@
+from lib2to3.fixes.fix_input import context
+
 from django.http import HttpResponse
 from django.template import loader
 
@@ -28,6 +30,23 @@ def home(request):
   return HttpResponse(template.render(context))
 
 def logIn(request):
+  template = loader.get_template("testAccountExperience/logIn.html")
+  return HttpResponse(template.render())
+
+def signUp(request):
   template = loader.get_template("testAccountExperience/signUp.html")
-  context = {"somehting": "somehting"}
-  return HttpResponse(template.render(context))
+  return HttpResponse(template.render())
+
+def forgotPassword(request):
+  template = loader.get_template("testAccountExperience/forgotPassword.html")
+  return HttpResponse(template.render())
+
+def newPassword(request):
+  template = loader.get_template("testAccountExperience/newPassword.html")
+  return HttpResponse(template.render())
+
+def deleteAccount(request):
+    template = loader.get_template("testAccountExperience/deleteAccount.html")
+    userInfo = {"loggedIn": True, "email": "randomEmail@outlook.com", "password": "<PASSWORD>"}
+    context = {"account": userInfo}
+    return HttpResponse(template.render(context))

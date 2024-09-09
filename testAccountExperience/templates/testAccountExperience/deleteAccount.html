@@ -1,0 +1,11 @@
+{% extends "testAccountExperience/base.html" %}
+{% block title %}delete account{% endblock %}
+{% block header %}<button>Test Account Experience</button>{% endblock %}
+{% block content %}
+    <form action="not sure yet" method="POST">
+        <p>are you sure you to delete {{ userInfo.email }} account?</p>
+        <input type="checkbox" id="delete account" name="delete account" value="yes" required>
+        <label for="delete account">Yes</label>
+        <input type="submit" value="Delete Account">
+    </form>
+{% endblock %}
