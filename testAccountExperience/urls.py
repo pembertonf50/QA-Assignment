@@ -8,7 +8,7 @@ urlpatterns = [
     path('forgotPassword/', views.forgotPassword, name='forgotPassword'),
     path('newPassword/', views.newPassword, name='newPassword'),
     path('deleteAccount/', views.deleteAccount, name='deleteAccount'),
-
+    path('logout/', views.logOut, name="logout"),
 ]
 
 # Todo: This is where you add the paths pattens to access the different view functions

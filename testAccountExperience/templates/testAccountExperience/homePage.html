@@ -6,17 +6,18 @@ home page
 
 {% block header %}
     <span>Test Account Experience</span>
-    {% if userInfo.loggedIn %}
+    {% if loggedIn %}
         <button>Hello {{ userInfo.email }}</button>
-        <button>logout</button>
-        <button>Delete Account</button>
+        <button><a href="{% url 'logout' %}">logout</a></button>
+        <button><a href="{% url 'deleteAccount' %}">Delete Account</a></button>
     {% else %}
-    <button>login/signup</button>
+    <button><a href="{% url 'login' %}">login/signup</a></button>
     {% endif %}
 {% endblock %}
 
 {% block content %}
-    <form action="not sure yet" method="POST">
+    <form method="POST">
+        {% csrf_token %}
         <label for="location">Account location</label>
         <br>
         <input type="text" list="locations" id="location" name="location">
@@ -67,12 +68,13 @@ home page
         <input type="radio" id="address not saved" name="address" value="no">
         <label for="address not saved">No</label>
         <br>
-
+        {% if loggedIn %}
         <input type="submit" value="Create account">
+        {% else %}
+            <button><a href="{% url 'login' %}">Login to create forms</a></button>
+        {% endif %}
 
     </form>
-
-
 
     <table>
     <tr>
@@ -87,16 +89,16 @@ home page
         <th>Removal</th>
     </tr>
 
-        {% for item in accounts %}
+        {% for action in accounts %}
             <tr>
-            <td>{{ item.email }}</td>
-            <td>{{ item.password }}</td>
-            <td>{{ item.location|title }}</td>
-            <td>{{ item.language|title }}</td>
-            <td>{{ item.subscriptions }}</td>
-            <td>{{ item.card }}</td>
-            <td>{{ item.address }}</td>
-            <td>{{ item.experiences }}</td>
+            <td>{{ action.email }}</td>
+            <td>{{ action.password }}</td>
+            <td>{{ action.location|title }}</td>
+            <td>{{ action.language|title }}</td>
+            <td>{{ action.subscriptions }}</td>
+            <td>{{ action.card }}</td>
+            <td>{{ action.address }}</td>
+            <td>{{ action.experiences }}</td>
             <td>Remove</td>
             </tr>
         {% endfor %}

@@ -1,14 +1,15 @@
 {% extends "testAccountExperience/base.html" %}
 
 {% block header %}
-    <button>Test Account Experience</button>
+    <button><a href="{% url 'home' %}">Test Account Experience</a></button>
 {% endblock %}
 
 {% block content %}
 
     <section id="general form">
         <h1>{% block formTitle %}{% endblock %} Test Account Experience</h1>
-        <form action="{% block formAction %}{% endblock %}" method="POST">
+        <form method="POST">
+        {% csrf_token %}
 
             {% block formEmail %}
                 <label for="email">Enter email</label>

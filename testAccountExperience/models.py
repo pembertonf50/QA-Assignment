@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 '''class Patient(models.Model):
   breed = models.CharField(max_length=200)
@@ -19,10 +20,28 @@ from django.db import models
   
 '''
 # Create your models here.
-class User(models.Model):
-    email = models.EmailField(max_length=200)
-    password = models.CharField(max_length=200)
-    loggedIn = models.BooleanField(default=False)
+'''
+User Model This is a built in model which can be used to generate users
+Fields:
+username: A unique username for the user.
+password: A hashed password for the user.
+first_name: The user's first name.
+last_name: The user's last name.
+email: The user's email address.
+is_active: A boolean indicating whether the user is active.
+is_staff: A boolean indicating whether the user is a staff member.
+is_superuser: A boolean indicating whether the user is a superuser.
+date_joined: The date and time the user was created.
+
+Methods:
+check_password(raw_password): Verifies if the provided raw password matches the user's stored hashed password.
+get_full_name(): Returns the user's full name.
+get_short_name(): Returns the user's username.
+has_perm(perm): Checks if the user has the specified permission.
+has_perms(perm_list): Checks if the user has all of the specified permissions.
+has_module_perms(app_label): Checks if the user has permissions for the specified app.
+
+'''
 
 class TestAccount(models.Model):
     locationChoices = [(), ()]
@@ -49,8 +68,3 @@ class TestAccount(models.Model):
 
     # Todo: methods below maybe redundant is Postgres is used as it has
     #       in built list handling
-    def setSubscriptions(self, subscriptionsList):
-        self.subscriptions = ','.join(subscriptionsList)
-
-    def getSubscriptions(self):
-        return self.subscriptions.split(',')
