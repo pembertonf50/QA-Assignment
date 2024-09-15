@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.contrib.auth.models import User
@@ -32,9 +33,10 @@ def home(request):
   if request.method == 'POST' and user.is_authenticated:
     testAccountLocation = request.POST['location']
     testAccountLanguage = request.POST['language']
-    testAccountSubscriptions = request.POST['subscriptions']
+    testAccountSubscriptions = request.POST.getlist('subscriptions')
     testAccountCardSaved = request.POST['card'] == "yes"
     testAccountAddressSaved = request.POST['address'] == "yes"
+
 
     TestAccount.objects.create(
       email="thisemailneedssort@gmail.com",
@@ -108,3 +110,10 @@ def deleteAccount(request):
 def logOut(request):
     logout(request)
     return redirect("home")
+
+def deleteTestAccount(request, templateEmail):
+  if request.user.is_authenticated:
+    # Q allows use to filter based on 2 or more conditions
+    testAccountToDelete = TestAccount.objects.filter(Q(email=templateEmail) & Q(testAccountOwner=request.user))
+    testAccountToDelete.delete()
+  return redirect("home")

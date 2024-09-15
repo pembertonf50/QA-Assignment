@@ -97,3 +97,7 @@ List any environment variables or configuration settings that need to be configu
 ## Testing ##
 Instructions for running tests:
 
+## Admin ##
+username admin
+email admin@dummyemail.com
+password admin

@@ -7,7 +7,7 @@ home page
 {% block header %}
     <span>Test Account Experience</span>
     {% if loggedIn %}
-        <button>Hello {{ userInfo.email }}</button>
+        <button>Hello {{ userEmail }}</button>
         <button><a href="{% url 'logout' %}">logout</a></button>
         <button><a href="{% url 'deleteAccount' %}">Delete Account</a></button>
     {% else %}
@@ -89,17 +89,17 @@ home page
         <th>Removal</th>
     </tr>
 
-        {% for action in accounts %}
+        {% for account in accounts %}
             <tr>
-            <td>{{ action.email }}</td>
-            <td>{{ action.password }}</td>
-            <td>{{ action.location|title }}</td>
-            <td>{{ action.language|title }}</td>
-            <td>{{ action.subscriptions }}</td>
-            <td>{{ action.card }}</td>
-            <td>{{ action.address }}</td>
-            <td>{{ action.experiences }}</td>
-            <td>Remove</td>
+            <td>{{ account.email }}</td>
+            <td>{{ account.password }}</td>
+            <td>{{ account.location|title }}</td>
+            <td>{{ account.language|title }}</td>
+            <td>{{ account.subscriptions }}</td>
+            <td>{{ account.cardSaved }}</td>
+            <td>{{ account.addressSaved }}</td>
+            <td>{{ account.experienceLink }}</td>
+                <td><button><a href="{% url 'deleteTestAccount' account.email %}">Remove</a></button></td>
             </tr>
         {% endfor %}
     </table>
