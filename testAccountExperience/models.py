@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .appCupboard import locations, languages, proccessTuplesForModels
 
 '''class Patient(models.Model):
   breed = models.CharField(max_length=200)
@@ -43,20 +44,18 @@ has_module_perms(app_label): Checks if the user has permissions for the specifie
 
 '''
 
+
 class TestAccount(models.Model):
-    locationChoices = [(), ()]
-    languageChoices = [(), ()]
-    subscriptionsChoices = [("prime", "Prime"), ()]
     # these choices are used to autogen a dropdown in django forms
     # Todo: Look into how to do this with Django forms
     #       location = models.CharField(max_length=200, choices=locationChoices)
     # Todo: Consider how you can arrange subscriptions list so that there's not
     #    many options using sort for example
-
-    email = models.EmailField(max_length=200)
+    # the use of unique and choices supplies backend validation
+    email = models.EmailField(max_length=200, unique=True)
     password = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
-    language = models.CharField(max_length=200)
+    location = models.CharField(max_length=200, choices=proccessTuplesForModels(locations))
+    language = models.CharField(max_length=200, choices=proccessTuplesForModels(languages))
     subscriptions = models.CharField(max_length=200)
     cardSaved = models.BooleanField(default=False)
     addressSaved = models.BooleanField(default=False)
