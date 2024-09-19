@@ -22,16 +22,17 @@ class TestViews(TestCase):
   def setUp(self):
     self.client = Client() # client object simulates a web browser and allows you to make requests to your Django application.
     self.home_url = reverse('home') # reverse('home') function resolves the URL based on the named URL pattern defined in your urls.py file.
+    self.login_url = reverse('login')
     self.user = User.objects.create_user(username='testuser', email='testuser', password='testpassword') # omitting the save to not dirty database
     # self.delete_test_account_url = reverse('delete_test_account', args=[1])
     # self.project1 = Project.objects.create(name='Test Project 1', budget=1000)
 
-  def test_home_get_user_not_authenticated(self):
+  def test_home_GET_user_not_authenticated(self):
     response = self.client.get(self.home_url)
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
-  def test_home_get_user_authenticated_with_accounts(self):
+  def test_home_GET_user_authenticated_with_accounts(self):
     self.client.login(username='testuser', password='testpassword')
     testAccount = TestAccount.objects.create(
       email="<EMAIL>",
@@ -49,13 +50,13 @@ class TestViews(TestCase):
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
-  def test_home_get_user_authenticated_no_accounts(self):
+  def test_home_GET_user_authenticated_no_accounts(self):
     self.client.login(username='testuser', password='testpassword')
     response = self.client.get(self.home_url)
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
-  def test_home_post_user_authenticated_invalid_data(self):
+  def test_home_POST_user_authenticated_invalid_data(self):
     self.client.login(username='testuser', password='testpassword')
     data = {'location': 'nope', 'language': 'nope', 'subscriptions': ['cool'], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
@@ -64,7 +65,7 @@ class TestViews(TestCase):
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
-  def test_home_post_user_authenticated_valid_data(self):
+  def test_home_POST_user_authenticated_valid_data(self):
     self.client.login(username='testuser', password='testpassword')
 
     # subscriptions with 1 input
@@ -90,3 +91,24 @@ class TestViews(TestCase):
 
 
     '''!!!! The login view tests !!!!'''
+
+  def test_login_GET(self):
+    response = self.client.get(self.login_url)
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'testAccountExperience/logIn.html')
+
+  def test_login_POST_invalid_data(self):
+    data = {'email': 'noEmail', 'password': 'noPassword'}
+    response = self.client.post(self.login_url, data)
+
+    self.assertRaises(ObjectDoesNotExist, User.objects.get, email='noEmail')
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'testAccountExperience/logIn.html')
+
+  def test_login_POST_valid_data(self):
+    data = {'email': 'testuser', 'password': 'testpassword'}
+    response = self.client.post(self.login_url, data)
+
+    self.assertEqual(User.objects.get(email='testuser').email, 'testuser')
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/')
