@@ -93,7 +93,7 @@ home page
             <td>{{ account.cardSaved }}</td>
             <td>{{ account.addressSaved }}</td>
             <td>{{ account.experienceLink }}</td>
-                <td><button><a href="{% url 'deleteTestAccount' account.email %}">Remove</a></button></td>
+            <td><button><a href="{% url 'deleteTestAccount' account.email %}">Remove</a></button></td>
             </tr>
         {% endfor %}
     </table>

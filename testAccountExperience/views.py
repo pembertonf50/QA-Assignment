@@ -46,7 +46,7 @@ def home(request):
       ).save()
 
     else:
-      print("need select a value from the lists")
+      print("need select a value from the lists") #Todo: js
 
   if user.is_authenticated:
     userEmail = User.objects.get(email=user.email)
@@ -70,32 +70,34 @@ def logIn(request):
       # Redirect to home page after logging in
       return redirect("home")
     else:
-      print("The credentials entered are incorrect")
+      print("The credentials entered are incorrect") # Todo: js
   return render(request, "testAccountExperience/logIn.html")
 
 def signUp(request):
   if request.method == 'POST':
-    issues = False
+    valid = True
     email = request.POST['email']
     password = request.POST['password']
     # if and try blocks below makes sure that our form submission
     # was valid with proper email and passwords
     if User.objects.filter(email=email).exists():
-        issues = True
-        print("email already exists")
+        valid = False
+        print("email already exists") # Todo: js
     try:
       validate_email(email)
     except ValidationError as e:
-      issues = True
-      print("bad email, details:", e)
+      valid = False
+      print("bad email, details:", e) # Todo: js
 
     try:
-      validate_password(password)
+      # validate_password checks common passwords, similar to user properties, not completely numeric and 9 char long min
+      # Todo: need to hash my passwords
+      validate_password(password) # apparently testpassword worked
     except ValidationError as e:
-      issues = True
-      print("bad email, details:", e)
+      valid = False
+      print("bad password, details:", e) # Todo: js
 
-    if not issues:
+    if valid:
       User.objects.create_user(username=email, email=email, password=password).save()
       userAuthenticated = authenticate(request, username=email, password=password)
       if userAuthenticated is not None:
@@ -106,21 +108,25 @@ def signUp(request):
   return render(request, "testAccountExperience/signUp.html")
 
 def deleteAccount(request):
+    if not request.user.is_authenticated:
+      return redirect("home")
     if request.user.is_authenticated and request.method == "POST":
         User.objects.filter(email=request.user.email).delete()
         return redirect("home")
-    context = {"userEmail": request.user.email}
+    context = {"userEmail": request.user.email} # testing picked up this issue where no validation will break this page
     return render(request, "testAccountExperience/deleteAccount.html", context)
 
 def logOut(request):
+  if request.user.is_authenticated: # added after testing
     logout(request)
-    return redirect("home")
+  return redirect("home")
 
 def deleteTestAccount(request, templateEmail):
-  if request.user.is_authenticated:
+  if request.user.is_authenticated: # Todo: check if this works when not signed in
     # Q allows use to filter based on 2 or more conditions
     testAccountToDelete = TestAccount.objects.filter(Q(email=templateEmail) & Q(testAccountOwner=request.user))
     testAccountToDelete.delete()
+    # Todo: what happens if cant find the object?
   return redirect("home")
 
 
