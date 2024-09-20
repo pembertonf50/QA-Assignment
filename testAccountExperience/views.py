@@ -128,13 +128,3 @@ def deleteTestAccount(request, templateEmail):
     testAccountToDelete.delete()
     # Todo: what happens if cant find the object?
   return redirect("home")
-
-
-# Todo: consider deleting
-def forgotPassword(request):
-  template = loader.get_template("testAccountExperience/forgotPassword.html")
-  return HttpResponse(template.render())
-
-def newPassword(request):
-  template = loader.get_template("testAccountExperience/newPassword.html")
-  return HttpResponse(template.render())
