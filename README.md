@@ -1,20 +1,27 @@
 ### Django Web Application ###
 ## Overview ##
-Project is a visual tabular project to store, modify and create test environments which can be easily accessed.
+Project is a visual tabular tool to store, modify and create test environments which can be easily accessed.
 The purpose of this is to easily test different countries and customer types experience under set conditions as it can be hard to identify/reproduce existing experiences.
-The project has been on Django Python web framework.
+The purposes of this project is not to create the virtual environment required to enter experience but to enable new accounts to be created which would be used in these environments.
+The is the scope of the project.
+The project has been build with Django Python web framework.
 
 
 ## Table of Contents ##
 Prerequisites
+
 Installation
+
+Setup the project
+
+Models
+
 Usage
-Configuration
+
 Testing
+
 Deployment
-Contributing
-License
-Acknowledgements
+
 
 ## Prerequisites ##
 Before you begin, ensure you have met the following requirements:
@@ -30,6 +37,7 @@ Clone the Repository:
 bash
 Copy code
 git clone https://github.com/pembertonf50/QA-Assignment.git
+
 cd your-repository
 Create a Virtual Environment:
 
@@ -66,10 +74,11 @@ django-admin startproject djangoProject // this will start a project setting up 
 
 python3 manage.py runserver // this setups up a development server running on http://localhost:8000
 
-python3 manage.py migrate // used to configure the django database if migrations errors occur.
+python3 manage.py migrate // used to sync/cleanup the conflicts between memory stored values in models and database saved values. Used if migrations errors occur.
 
 python3 manage.py startapp <app name> // creates an app folder containing files related 
 
+## Models ##
 Models are used to setup database schema and commands can be used to run the necessary sql commands:
 python3 manage.py makemigrations <app name> // this will create a script to be run in migrations folder
 
@@ -82,22 +91,40 @@ python3 manage.py showmigrations <app name> // this is used to display the gener
 
 python3 manage.py migrate <app name> 0002 // this would remove 0003 and revert back to 0002
 
-
-
 ## Usage ##
 Provide instructions on how to use the application. This might include:
+User are first taken to home screen where they can then navigate to login/signup.
+Home screen by default shows the overall feel of the tool to effectively explain how it is use.
+After login, user will be redirected to home where they can begin making test accounts.
 
-How to access the web application
-Basic navigation and functionality
-How to perform common tasks
-Configuration
-List any environment variables or configuration settings that need to be configured. For example:
-
+when using admin account you can login using credential below like a regular user. You can also make use of the admin functionality by going to /admin endpoint. By login here you have access to all the users and there associated test accounts with the privilege to delete them.
 
 ## Testing ##
-Instructions for running tests:
+Test are all stored in testAccountExperience/tests.py
+This is the native and intended way to create and store tests for simplicity.
+
+All view functions have been tested and 100% coverage has been achieved for this application.
+Test can be run using python3 manage.py test or by running the testAccountExperience/tests.py in PyCharm.
+
+The reason why full coverage when only testing 1 files, is due to the following:
+
+During a test, Django has to load the classes and other modules into the memory, and hence the program (your class and settings and many other parts) get executed.
+
+So what’s happening here, is that CBVs are classes, when you run the tests Django will load them into memory, which means that they will be executed. When running the coverage, it will look for “executed” code and they will appear as tested.
+
+
+
 
 ## Admin ##
-username admin
-email admin@dummyemail.com
-password admin
+to create an admin account use the following command:
+
+python3 manage.py createsuperuser
+
+
+current stored account detail:
+
+username: admin
+
+email: admin@dummyemail.com
+
+password: admin

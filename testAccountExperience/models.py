@@ -2,27 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from .appCupboard import locations, languages, proccessTuplesForModels
 
-'''class Patient(models.Model):
-  breed = models.CharField(max_length=200)
-  pet_name = models.CharField(max_length=200)
-  age = models.IntegerField(default=0)
-  # Add your code below:
-  owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-  
-  class Flower(models.Model):
-  COLOR_CHOICES = [
-     ("R", "Red"),
-     ("Y", "Yellow"),
-     ("P", "Purple"),
-     ("O", "Other"),
-  ]
-  
-  color = models.CharField(max_length=1, choices=COLOR_CHOICES)
-  
-'''
 # Create your models here.
 '''
-User Model This is a built in model which can be used to generate users
+User Model is a built in model which can be used to generate users
 Fields:
 username: A unique username for the user.
 password: A hashed password for the user.
@@ -41,17 +23,11 @@ get_short_name(): Returns the user's username.
 has_perm(perm): Checks if the user has the specified permission.
 has_perms(perm_list): Checks if the user has all of the specified permissions.
 has_module_perms(app_label): Checks if the user has permissions for the specified app.
-
 '''
 
-
 class TestAccount(models.Model):
-    # these choices are used to autogen a dropdown in django forms
-    # Todo: Look into how to do this with Django forms
-    #       location = models.CharField(max_length=200, choices=locationChoices)
-    # Todo: Consider how you can arrange subscriptions list so that there's not
-    #    many options using sort for example
-    # the use of unique and choices supplies backend validation
+    # Todo: The use of unique and choices keyword parameters provides backend validation.
+    #   choices enforces that location/languages is from tuple lists
     email = models.EmailField(max_length=200, unique=True)
     password = models.CharField(max_length=200)
     location = models.CharField(max_length=200, choices=proccessTuplesForModels(locations))
@@ -61,9 +37,4 @@ class TestAccount(models.Model):
     addressSaved = models.BooleanField(default=False)
     experienceLink = models.URLField(max_length=200)
     testAccountOwner = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    # 'on_delete=models.CASCADE' ensures that TestAccount is/are deleted
-    # when User is deleted
-
-    # Todo: methods below maybe redundant is Postgres is used as it has
-    #       in built list handling
+    # Todo: 'on_delete=models.CASCADE' ensures that TestAccount is/are deleted when User is deleted

@@ -1,14 +1,16 @@
+# Todo: This file is used to remove complex logic from views and models
+
 import faker
 
-def stringifySubscriptions(subscriptionsList):
+def stringifySubscriptions(subscriptionsList): # Todo: models can't take list objects so needs converting to string
   return ', '.join(subscriptionsList)
 
-def listifySubscriptions(querySet):
+def listifySubscriptions(querySet): # Todo: Converts the model stored subscriptions back to list
   for obj in querySet:
-    obj.subscriptions = obj.subscriptions.split(', ')
+    obj.subscriptions = obj.subscriptions.split(', ') # Todo: .save() not used so no changes are done in database
   return querySet
 
-def urlPlanType(lst):
+def urlPlanType(lst): # Todo: Creates plantype text in virtual environment link
   if len(lst) == 0:
     return ""
   elif len(lst) == 1:
@@ -16,20 +18,19 @@ def urlPlanType(lst):
   else:
     return "multiplan-"
 
-def proccessTuplesForModels(tup):
-  modelReadyTuple = ()
+def proccessTuplesForModels(tup): # Todo: Example output (('Portuguese', 'Portuguese'), ('English', 'English'), ...)
+  modelReadyTuple = ()            #  used in to make sure values stored in database come from tuple
   for s in tup:
     modelReadyTuple += ((s, s),)
   return modelReadyTuple
 
-def createLocationsTuple(dic):
+def createLocationsTuple(dic): # Todo: Used to create tuple from country_iso_codes from 1 source of truth
   locationsTuple = ()
   for s in dic.keys():
     locationsTuple += (s,)
   return locationsTuple
 
-def generateUniqueEmail(model):
-    """Generates a unique email address for a given model."""
+def generateUniqueEmail(model): # Todo: Generates a unique test email address for a given User model.
     fake = faker.Faker()
     while True:
         email = fake.email()

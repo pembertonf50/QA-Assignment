@@ -5,41 +5,33 @@ from .models import TestAccount
 from django.core.exceptions import ObjectDoesNotExist
 from unittest.mock import patch
 
-# Todo: most of the application gets coverage automatically because ...
-
-"""
-Then the additional comment gives an extra flavor to it:
-
-During the test, Django has to load the classes and other modules into the memory, and hence the program (your class and settings and many other parts) get executed.
-
-So what’s happening here, is that CBVs are classes, when you run the tests Django will load them into memory, which means that they will be executed. When I ran the coverage, it will look for “executed” code and they will appear as tested.
-
-The Class Based View method I have overridden is not run while loading Django and that’s why it isn’t considered as tested!
-
-"""
-
 # Create your tests here.
 class TestViews(TestCase):
   def setUp(self):
-    self.client = Client() # client object simulates a web browser and allows you to make requests to your Django application.
-    self.home_url = reverse('home') # reverse('home') function resolves the URL based on the named URL pattern defined in your urls.py file.
+    # Todo: Client object simulates a web browser and allows you to make requests to your Django application.
+    self.client = Client()
+    # Todo: reverse('home') function resolves the URL based on the named URL pattern defined in your urls.py file.
+    self.home_url = reverse('home')
     self.login_url = reverse('login')
     self.signup_url = reverse('signup')
     self.deleteAccount_url = reverse('deleteAccount')
     self.logout_url = reverse('logout')
     self.deleteTestAccount_url = reverse('deleteTestAccount', args=["<EMAIL>"])
-    self.user = User.objects.create_user(username='testuser', email='testuser', password='password') # omitting the save to not dirty database
-    # self.delete_test_account_url = reverse('delete_test_account', args=[1])
-    # self.project1 = Project.objects.create(name='Test Project 1', budget=1000)
+    # Todo: Omitting the save() to not dirty database with test data
+    self.user = User.objects.create_user(username='testuser', email='testuser', password='password')
+
+  'home view tests'
 
   def test_home_GET_user_not_authenticated(self):
-    response = self.client.get(self.home_url)
-    self.assertEqual(response.status_code, 200)
+    response = self.client.get(self.home_url) # Todo: simulates a GET request on home endpoint
+
+    self.assertEqual(response.status_code, 200) # Todo: GET was ok
+    # Todo: Checks correct template
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
   def test_home_GET_user_authenticated_with_accounts(self):
-    self.client.login(username='testuser', password='password')
-    testAccount = TestAccount.objects.create(
+    self.client.login(username='testuser', password='password') # Todo: login to authenticate user
+    testAccount = TestAccount.objects.create( # Todo: Creates a test account
       email="<EMAIL>",
       password="<PASSWORD>",
       location="here",
@@ -50,19 +42,21 @@ class TestViews(TestCase):
       experienceLink="www.yeh.com",
       testAccountOwner=self.user
     )
-
     response = self.client.get(self.home_url)
+
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
   def test_home_GET_user_authenticated_no_accounts(self):
     self.client.login(username='testuser', password='password')
     response = self.client.get(self.home_url)
+
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
   def test_home_POST_user_authenticated_invalid_data(self):
     self.client.login(username='testuser', password='password')
+    # Todo: nope is not a valid location or language
     data = {'location': 'nope', 'language': 'nope', 'subscriptions': ['cool'], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
 
@@ -72,33 +66,36 @@ class TestViews(TestCase):
 
   def test_home_POST_user_authenticated_valid_data(self):
     self.client.login(username='testuser', password='password')
-
-    # subscriptions with 1 input
+    # Todo: subscriptions with 1 input
     data = {'location': 'Turkey', 'language': 'Turkish', 'subscriptions': ['cool'], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
+
     self.assertEqual(TestAccount.objects.get(location='Turkey').location, "Turkey")
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
-    # subscriptions with no input
+    # Todo: subscriptions with no input
     data = {'location': 'Canada', 'language': 'English', 'subscriptions': [], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
+
     self.assertEqual(TestAccount.objects.get(location='Canada').location, "Canada")
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
-    # subscriptions with multiple input
-    data = {'location': 'United Arab Emirates', 'language': 'Arabic', 'subscriptions': ['cool', 'dead'], 'card': 'no', 'address': 'no'}
+    # Todo: subscriptions with multiple input
+    data = {'location': 'United Arab Emirates', 'language': 'Arabic',
+            'subscriptions': ['cool', 'dead'], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
+
     self.assertEqual(TestAccount.objects.get(location='United Arab Emirates').location, "United Arab Emirates")
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
 
-
-    '''!!!! The login view tests !!!!'''
+  'login view tests'
 
   def test_login_GET(self):
     response = self.client.get(self.login_url)
+
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/logIn.html')
 
@@ -115,41 +112,46 @@ class TestViews(TestCase):
     response = self.client.post(self.login_url, data)
 
     self.assertEqual(User.objects.get(email='testuser').email, 'testuser')
-    self.assertEqual(response.status_code, 302)
-    self.assertRedirects(response, '/')
+    self.assertEqual(response.status_code, 302) # Todo: Checks redirect response worked
+    self.assertRedirects(response, '/') # Todo: Checks redirect to home endpoint
 
-  '''!!!! The signup view tests !!!!'''
+  'signup view tests'
 
   def test_signup_GET(self):
     response = self.client.get(self.signup_url)
+
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/signUp.html')
 
   def test_signup_POST_invalid_data(self):
-    data = {'email': 'testuser', 'password': 'password'}
+    data = {'email': 'testuser', 'password': 'password'} # Todo: Already exists data
     response = self.client.post(self.signup_url, data)
+
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/signUp.html')
 
   def test_signup_POST_valid_data(self):
     data = {'email': 'testuser@gmail.com', 'password': 'somethingproper12'}
     response = self.client.post(self.signup_url, data)
+
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
-  @patch('testAccountExperience.views.authenticate')  # This is used to change the outcome of authenticate to None
+  @patch('testAccountExperience.views.authenticate')  # Todo: patch changes outcome of authenticate()
   def test_signup_POST_valid_data_authentication_fails(self, mock_authenticate):
     mock_authenticate.return_value = None
     data = {'email': 'testuser@gmail.com', 'password': 'somethingproper12'}
     response = self.client.post(self.signup_url, data)
+
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/login/')
 
-  '''!!!! The delete Account view tests !!!!'''
+  'delete account view tests'
 
   def test_deleteAccount_GET(self):
     self.client.login(username='testuser', password='password')
     response = self.client.get(self.deleteAccount_url)
+
     self.assertEqual(response.status_code, 200)
     self.assertTemplateUsed(response, 'testAccountExperience/deleteAccount.html')
 
@@ -163,17 +165,21 @@ class TestViews(TestCase):
     self.client.login(username='testuser', password='password')
     response = self.client.post(self.deleteAccount_url)
 
+    self.assertRaises(ObjectDoesNotExist, User.objects.get, email='testuser')
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
-  '''!!!! The logOut view tests !!!!'''
+  'logout view tests'
+
   def test_logout_GET(self):
     self.client.login(username='testuser', password='password')
     response = self.client.get(self.logout_url)
+
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
-  '''!!!! The deleteTestAccount view tests !!!!'''
+  'delete test account view tests'
+
   def test_deleteTestAccount_GET(self):
     self.client.login(username='testuser', password='password')
     testAccount = TestAccount.objects.create(
@@ -187,8 +193,8 @@ class TestViews(TestCase):
       experienceLink="www.yeh.com",
       testAccountOwner=self.user
     )
-
     response = self.client.get(self.deleteTestAccount_url)
+
     self.assertEqual(TestAccount.objects.filter(testAccountOwner=self.user).count(), 0)
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')

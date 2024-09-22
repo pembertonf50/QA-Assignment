@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Todo: this is where new apps must be added
+    # Todo: This is where new apps must be added
     'testAccountExperience.apps.TestaccountexperienceConfig',
 ]
 
