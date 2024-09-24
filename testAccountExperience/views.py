@@ -42,6 +42,9 @@ def home(request):
     else:
       print("need select a value from the lists") #Todo: js
 
+    # Todo: the use of redirect stops multiple POST submission which duplicates account creation on refresh
+    return redirect('home')
+
   if user.is_authenticated:
     userEmail = User.objects.get(email=user.email)
     testAccounts = TestAccount.objects.filter(testAccountOwner=user)
@@ -119,5 +122,8 @@ def deleteTestAccount(request, templateEmail):
   if request.user.is_authenticated:
     # Todo: Q allows filter based on 2 or more conditions
     testAccountToDelete = TestAccount.objects.filter(Q(email=templateEmail) & Q(testAccountOwner=request.user))
-    testAccountToDelete.delete()
+    if testAccountToDelete.exists():
+      testAccountToDelete.delete()
+    else:
+      print("log error for account does not exist")
   return redirect("home")

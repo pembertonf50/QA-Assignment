@@ -1,9 +1,10 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import TestAccount
 from django.core.exceptions import ObjectDoesNotExist
 from unittest.mock import patch
+from .models import TestAccount
+
 
 # Create your tests here.
 class TestViews(TestCase):
@@ -23,7 +24,8 @@ class TestViews(TestCase):
   'home view tests'
 
   def test_home_GET_user_not_authenticated(self):
-    response = self.client.get(self.home_url) # Todo: simulates a GET request on home endpoint
+    client = Client()
+    response = client.get(reverse('home')) # Todo: simulates a GET request on home endpoint
 
     self.assertEqual(response.status_code, 200) # Todo: GET was ok
     # Todo: Checks correct template
@@ -61,8 +63,8 @@ class TestViews(TestCase):
     response = self.client.post(self.home_url, data)
 
     self.assertRaises(ObjectDoesNotExist, TestAccount.objects.get, location='nope')
-    self.assertEqual(response.status_code, 200)
-    self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
+    self.assertEqual(response.status_code, 302) # Todo: Checks redirect response worked
+    self.assertRedirects(response, '/') # Todo: Checks redirect to home endpoint
 
   def test_home_POST_user_authenticated_valid_data(self):
     self.client.login(username='testuser', password='password')
@@ -71,16 +73,16 @@ class TestViews(TestCase):
     response = self.client.post(self.home_url, data)
 
     self.assertEqual(TestAccount.objects.get(location='Turkey').location, "Turkey")
-    self.assertEqual(response.status_code, 200)
-    self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/')
 
     # Todo: subscriptions with no input
     data = {'location': 'Canada', 'language': 'English', 'subscriptions': [], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
 
     self.assertEqual(TestAccount.objects.get(location='Canada').location, "Canada")
-    self.assertEqual(response.status_code, 200)
-    self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/')
 
     # Todo: subscriptions with multiple input
     data = {'location': 'United Arab Emirates', 'language': 'Arabic',
@@ -88,8 +90,8 @@ class TestViews(TestCase):
     response = self.client.post(self.home_url, data)
 
     self.assertEqual(TestAccount.objects.get(location='United Arab Emirates').location, "United Arab Emirates")
-    self.assertEqual(response.status_code, 200)
-    self.assertTemplateUsed(response, 'testAccountExperience/homePage.html')
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/')
 
   'login view tests'
 
@@ -112,8 +114,8 @@ class TestViews(TestCase):
     response = self.client.post(self.login_url, data)
 
     self.assertEqual(User.objects.get(email='testuser').email, 'testuser')
-    self.assertEqual(response.status_code, 302) # Todo: Checks redirect response worked
-    self.assertRedirects(response, '/') # Todo: Checks redirect to home endpoint
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/')
 
   'signup view tests'
 
@@ -196,5 +198,14 @@ class TestViews(TestCase):
     response = self.client.get(self.deleteTestAccount_url)
 
     self.assertEqual(TestAccount.objects.filter(testAccountOwner=self.user).count(), 0)
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/')
+
+  @patch('testAccountExperience.views.TestAccount.objects.exists')
+  def test_deleteTestAccount_no_account_found(self, mock_authenticate):
+    mock_authenticate.return_value = False
+    self.client.login(username='testuser', password='password')
+    response = self.client.get(self.deleteTestAccount_url)
+
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
