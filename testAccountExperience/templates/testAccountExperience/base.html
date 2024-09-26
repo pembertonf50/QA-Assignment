@@ -1,31 +1,32 @@
+{% load bootstrap5 %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
         {% block styles %}
-        <!-- Default styles can go here -->
-        <!-- Todo: Add base styles here -->
-        <!-- <link rel="stylesheet" href=""> -->
+        <!-- Todo: Default styles can go here -->
+        {% bootstrap_css %}
         {% endblock %}
     </head>
     <body>
         <header>
-            {% block header %}{% endblock %}
+        {% block header %}{% endblock %}
         </header>
         <main>
-            {% block content %}{% endblock %}
+        {% block content %}{% endblock %}
         </main>
         <footer>
-            {% block footer %}
-            <!-- Default footer content -->
-            <p>&copy; 2024 Test Account Experience</p>
-            {% endblock %}
+        {% block footer %}
+            <!-- Todo: Default footer content -->
+            <br>
+            <p class="container-fluid">&copy; 2024 Test Account Experience</p>
+        {% endblock %}
         </footer>
         {% block scripts %}
-        <!-- Default scripts can go here -->
-        <!-- Todo: Add base javascript here -->
-        <!-- <script src=""></script> -->
+        <!-- Todo: Default javascript can go here -->
+        {% bootstrap_javascript %}
         {% endblock %}
     </body>
 </html>

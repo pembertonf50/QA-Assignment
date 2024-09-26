@@ -37,14 +37,38 @@ def generateUniqueEmail(model): # Todo: Generates a unique test email address fo
         if not model.objects.filter(email=email).exists():
             return email
 
-dummyAccounts = [{"email": "example@gmail.com",
-               "password": "123456",
-               "location": "united kingdom",
-               "language": "english",
-               "subscriptions": ["something"],
-               "cardSaved": True,
-               "addressSaved": False,
-               "experienceLink": "www.example.com"}]
+dummyAccounts = [
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Mexico', 'language': 'Malay', 'subscriptions': [],'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Colombia', 'language': 'Japanese', 'subscriptions': ['PrimeVideo', 'Prime', 'HBO', 'Paramount+'], 'cardSaved': True, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Austria', 'language': 'Danish', 'subscriptions': ['PrimeVideo'], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Norway', 'language': 'Romanian', 'subscriptions': [], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Paraguay', 'language': 'French', 'subscriptions': ['Prime', 'HBO', 'Paramount+'], 'cardSaved': True, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Denmark', 'language': 'Tagalog', 'subscriptions': ['Prime', 'HBO', 'Paramount+'], 'cardSaved': True, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Ireland', 'language': 'Polish', 'subscriptions': [], 'cardSaved': True, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Poland', 'language': 'Thai', 'subscriptions': ['PrimeVideo'], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Japan', 'language': 'Dutch', 'subscriptions': [], 'cardSaved': True, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Spain', 'language': 'English', 'subscriptions': [], 'cardSaved': False, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Denmark', 'language': 'German', 'subscriptions': ['Prime', 'HBO'], 'cardSaved': True, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Canada', 'language': 'Polish', 'subscriptions': ['Prime', 'HBO', 'Paramount+'], 'cardSaved': True, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Paraguay', 'language': 'Portuguese', 'subscriptions': ['PrimeVideo'], 'cardSaved': False, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Barbados', 'language': 'Norwegian', 'subscriptions': ['PrimeVideo', 'Prime', 'HBO', 'Paramount+'], 'cardSaved': True, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Taiwan', 'language': 'English', 'subscriptions': ['Prime', 'HBO'], 'cardSaved': True, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Brazil', 'language': 'Danish', 'subscriptions': [], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Malaysia', 'language': 'Norwegian', 'subscriptions': ['Prime', 'HBO'], 'cardSaved': False, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Paraguay', 'language': 'Malay', 'subscriptions': ['PrimeVideo', 'Prime', 'HBO', 'Paramount+'], 'cardSaved': False, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Spain', 'language': 'Portuguese', 'subscriptions': ['Prime', 'HBO'], 'cardSaved': True, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Italy', 'language': 'Hindi', 'subscriptions': ['PrimeVideo', 'Prime', 'HBO', 'Paramount+'], 'cardSaved': False, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Italy', 'language': 'Arabic', 'subscriptions': ['Prime', 'HBO'], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Argentina', 'language': 'Vietnamese', 'subscriptions': ['Prime', 'HBO', 'Paramount+'], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Chile', 'language': 'Mandarin Chinese', 'subscriptions': ['PrimeVideo'], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Italy', 'language': 'Swedish', 'subscriptions': ['PrimeVideo'], 'cardSaved': True, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'United Kingdom', 'language': 'Mandarin Chinese', 'subscriptions': ['Prime', 'HBO'], 'cardSaved': True, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Barbados', 'language': 'German', 'subscriptions': ['Prime', 'HBO', 'Paramount+'], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Paraguay', 'language': 'Hungarian', 'subscriptions': ['Prime', 'HBO'], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'United Arab Emirates', 'language': 'Italian', 'subscriptions': [], 'cardSaved': True, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'France', 'language': 'English', 'subscriptions': ['Prime', 'HBO'], 'cardSaved': True, 'addressSaved': True, 'experienceLink': 'www.example.com'},
+  {'email': 'example@gmail.com', 'password': '123456', 'location': 'Norway', 'language': 'Hindi', 'subscriptions': ['PrimeVideo', 'Prime', 'HBO', 'Paramount+'], 'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'}
+]
 
 country_iso_codes = {
     "Argentina": "AR",

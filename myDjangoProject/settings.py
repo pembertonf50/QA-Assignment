@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Todo: This is where new apps must be added
+    'bootstrap5',
     'testAccountExperience.apps.TestaccountexperienceConfig',
 ]
 

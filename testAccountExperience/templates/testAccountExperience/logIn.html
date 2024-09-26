@@ -1,6 +1,8 @@
 {% extends "testAccountExperience/logIn_signUp_base.html" %}
+{% load bootstrap5 %}
 
 {% block title %}login page{% endblock %}
 {% block formTitle %}Login to{% endblock %}
+{% block errorMessage %}{% bootstrap_messages %}{% endblock %}
 {% block continueText %}Login{% endblock %}
-{% block outsideFormLink %}<a href="{% url 'signup' %}">Signup</a>{% endblock %}
+{% block outsideFormLink %}<a class="container-fluid" href="{% url 'signup' %}">Signup</a>{% endblock %}

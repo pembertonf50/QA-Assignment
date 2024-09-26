@@ -1,31 +1,15 @@
 {% extends "testAccountExperience/base.html" %}
 
-{% block header %}
-    <button><a href="{% url 'home' %}">Test Account Experience</a></button>
-{% endblock %}
-
+{% block header %}{% include 'includes/navbar.html' %}{% endblock %}
 {% block content %}
-
-    <section id="general form">
-        <h1>{% block formTitle %}{% endblock %} Test Account Experience</h1>
-        <form method="POST">
-        {% csrf_token %}
-
-            {% block formEmail %}
-                <label for="email">Enter email</label>
-                <input id="email" name="email" required>
-            {% endblock %}
-
-            {% block formPassword %}
-                <label for="password">Enter password</label>
-                <input type="password" id="password" name="password" required>
-            {% endblock %}
-
-            <input type="submit" value="{% block continueText %}{% endblock %}">
-
-        </form>
-    </section>
-
-    {% block outsideFormLink %}{% endblock %}
-
+<section id="general form" class="container-fluid">
+    <h2>{% block formTitle %}{% endblock %} Test Account Experience</h2>
+    <form method="POST">
+    {% csrf_token %}
+    {% include "includes/form.html" %}
+    {% block errorMessage %}{% endblock %}
+        <input type="submit" value="{% block continueText %}{% endblock %}">
+    </form>
+</section>
+{% block outsideFormLink %}{% endblock %}
 {% endblock %}

@@ -1,0 +1,64 @@
+{% load bootstrap5 %}
+
+<div class="col-3">
+<form method="POST">
+{% csrf_token %}
+<label for="location" class="form-label">Account location</label>
+<input type="text" style="width: 80%" class="form-control" list="locations" id="location" name="location" placeholder="Type to search..." required>
+<datalist id="locations">
+    {% for location in locations %}
+        <option value="{{ location }}"></option>
+    {% endfor %}
+</datalist>
+<br>
+
+
+
+<label for="language" class="form-label">Account language</label>
+<input type="text" style="width: 80%" class="form-control" list="languages" id="language" name="language" placeholder="Type to search..." required>
+<datalist id="languages">
+    {% for language in languages %}
+        <option value="{{ language }}"></option>
+    {% endfor %}
+</datalist>
+<br>
+
+{% bootstrap_messages %}
+
+<label for="subscriptions" class="form-label">Account subscriptions</label>
+<select style="width: 40%" id="subscriptions" name="subscriptions" class="form-select" multiple>
+    {% for subscription in subscriptions %}
+        <option value="{{ subscription }}">{{ subscription }}</option>
+    {% endfor %}
+</select>
+<p class="form-text">ctrl/control to multi select</p>
+
+
+<p class="form-label">Card saved?</p>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" id="card saved" name="card" value="yes" required>
+  <label class="form-check-label" for="card saved">Yes</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" id="card not saved" name="card"  value="no" required>
+  <label class="form-check-label" for="card not saved">No</label>
+</div>
+<br>
+
+<p class="form-label">Address saved?</p>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" id="address saved" name="address" value="yes" required>
+  <label class="form-check-label" for="address saved">Yes</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" id="address not saved" name="address" value="no" required>
+  <label class="form-check-label" for="address not saved">No</label>
+</div>
+<br>
+{% if loggedIn %}
+        <input type="submit" value="Create account">
+        {% else %}
+            <a href="{% url 'login' %}">Login to create forms</a>
+        {% endif %}
+</form>
+</div>

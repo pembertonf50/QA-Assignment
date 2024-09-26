@@ -1,12 +1,10 @@
 {% extends "testAccountExperience/base.html" %}
 {% block title %}delete account{% endblock %}
-{% block header %}<button><a href="{% url 'home' %}">Test Account Experience</a></button>{% endblock %}
+{% block header %}{% include 'includes/navbar.html' %}{% endblock %}
 {% block content %}
-    <form method="POST">
+    <h2 class="container-fluid">Delete Account</h2>
+    <form class="container-fluid" method="POST">
     {% csrf_token %}
-        <p>are you sure you to delete {{ userEmail }} account?</p>
-        <input type="checkbox" id="delete account" name="delete account" value="yes" required>
-        <label for="delete account">Yes</label>
-        <input type="submit" value="Delete Account">
+    {% include "includes/deleteForm.html" %}
     </form>
 {% endblock %}

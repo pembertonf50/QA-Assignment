@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <span class="navbar-brand">Test Account Experience</span>
+    {% if loggedIn %}
+    	<span class="navbar-brand">Hello {{ userEmail }}</span>
+    {% endif %}
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        {% if loggedIn %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">logout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'deleteAccount' %}">Delete Account</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">login/signup</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--
+{% if loggedIn %}
+        <button>Hello {{ userEmail }}</button>
+        <a href="{% url 'logout' %}" class="btn btn-primary">logout</a>
+        <a href="{% url 'deleteAccount' %}" class="btn btn-primary">Delete Account</a>
+    {% else %}
+    <a href="{% url 'login' %}" class="btn btn-primary">login/signup</a>
+    {% endif %} -->

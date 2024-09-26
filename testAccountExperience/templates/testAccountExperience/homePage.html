@@ -5,100 +5,29 @@ home page
 {% endblock %}
 
 {% block header %}
-    <span>Test Account Experience</span>
-    {% if loggedIn %}
-        <button>Hello {{ userEmail }}</button>
-        <button><a href="{% url 'logout' %}">logout</a></button>
-        <button><a href="{% url 'deleteAccount' %}">Delete Account</a></button>
-    {% else %}
-    <button><a href="{% url 'login' %}">login/signup</a></button>
-    {% endif %}
+    {% include "includes/homeNavbar.html" %}
 {% endblock %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        <label for="location">Account location</label>
-        <br>
-        <input type="text" list="locations" id="location" name="location" required>
-        <br>
+<div class="container-fluid">
+<div class="row">
+{% include "includes/homeForm.html" %}
+{#<div class="col-2">#}
+{#    <form method="POST">#}
+{#        {% csrf_token %}#}
+{#        {% include "includes/homeForm.html" %}#}
+{##}
+{##}
+{#        {% if loggedIn %}#}
+{#        <input type="submit" value="Create account">#}
+{#        {% else %}#}
+{#            <a href="{% url 'login' %}">Login to create forms</a>#}
+{#        {% endif %}#}
+{##}
+{#    </form>#}
+{#</div>#}
 
-        <datalist id="locations">
-            {% for location in locations %}
-                <option value="{{ location }}"></option>
-            {% endfor %}
-        </datalist>
-
-        <label for="language">Account language</label>
-        <br>
-        <input type="text" list="languages" id="language" name="language" required>
-        <br>
-
-        <datalist id="languages">
-            {% for language in languages %}
-                <option value="{{ language }}"></option>
-            {% endfor %}
-        </datalist>
-
-        <label for="subscriptions">Account subscriptions</label>
-        <br>
-
-        <select id="subscriptions" name="subscriptions" multiple>
-            {% for subscription in subscriptions %}
-                <option value="{{ subscription }}">{{ subscription }}</option>
-            {% endfor %}
-        </select>
-
-
-        <p>Card saved?</p>
-        <input type="radio" id="card saved" name="card" value="yes" required>
-        <label for="card saved">Yes</label>
-        <input type="radio" id="card not saved" name="card" value="no" required>
-        <label for="card not saved">No</label>
-
-        <p>Address saved?</p>
-        <input type="radio" id="address saved" name="address" value="yes" required>
-        <label for="address saved">Yes</label>
-        <input type="radio" id="address not saved" name="address" value="no" required>
-        <label for="address not saved">No</label>
-        <br>
-        {% if loggedIn %}
-        <input type="submit" value="Create account">
-        {% else %}
-            <button><a href="{% url 'login' %}">Login to create forms</a></button>
-        {% endif %}
-
-    </form>
-
-    <table>
-    <tr>
-        <th>Email</th>
-        <th>Password</th>
-        <th>Location</th>
-        <th>Language</th>
-        <th>Subscriptions</th>
-        <th>Card</th>
-        <th>Address</th>
-        <th>Experience</th>
-        <th>Removal</th>
-    </tr>
-
-        {% for account in accounts %}
-            <tr>
-            <td>{{ account.email }}</td>
-            <td>{{ account.password }}</td>
-            <td>{{ account.location|title }}</td>
-            <td>{{ account.language|title }}</td>
-            <td>{{ account.subscriptions }}</td>
-            <td>{{ account.cardSaved }}</td>
-            <td>{{ account.addressSaved }}</td>
-            <td>{{ account.experienceLink }}</td>
-            {% if account.password == "123456" %}
-                <td><button>Remove</button></td>
-            {% else %}
-                 <td><button><a href="{% url 'deleteTestAccount' account.email %}">Remove</a></button></td>
-            {% endif %}
-            </tr>
-        {% endfor %}
-    </table>
+{% include "includes/table.html" %}
+</div>
+    </div>
 {% endblock %}

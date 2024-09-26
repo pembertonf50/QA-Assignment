@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -40,7 +41,7 @@ def home(request):
       ).save()
 
     else:
-      print("need select a value from the lists") #Todo: js
+      messages.error(request, "Need to select a value from Account location and Account language")
 
     # Todo: the use of redirect stops multiple POST submission which duplicates account creation on refresh
     return redirect('home')
@@ -68,7 +69,7 @@ def logIn(request):
       login(request, user)
       return redirect("home")
     else:
-      print("The credentials entered are incorrect") # Todo: js
+      messages.error(request, "Cannot find account with these login credentials")
   return render(request, "testAccountExperience/logIn.html")
 
 def signUp(request):
@@ -80,19 +81,21 @@ def signUp(request):
     #   has valid email and passwords
     if User.objects.filter(email=email).exists():
         valid = False
-        print("email already exists") # Todo: js
+        messages.error(request, "Email already registered")
     try:
       validate_email(email)
     except ValidationError as e:
       valid = False
-      print("bad email, details:", e) # Todo: js
+      messageString = "Bad email, details: " + str(e)
+      messages.error(request, messageString)
     try:
       # Todo: validate_password() checks common passwords, similar to user properties, not completely numeric and
       #  minimum 9 characters long
       validate_password(password)
     except ValidationError as e:
       valid = False
-      print("bad password, details:", e) # Todo: js
+      messageString = "Bad password, details: " + str(e)
+      messages.error(request, messageString)
 
     if valid:
       User.objects.create_user(username=email, email=email, password=password).save()
@@ -125,5 +128,5 @@ def deleteTestAccount(request, templateEmail):
     if testAccountToDelete.exists():
       testAccountToDelete.delete()
     else:
-      print("log error for account does not exist")
+      messages.error(request, "Account not found") # Todo: this will not be displayed but admin should see
   return redirect("home")
