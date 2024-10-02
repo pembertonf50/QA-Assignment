@@ -127,6 +127,4 @@ def deleteTestAccount(request, templateEmail):
     testAccountToDelete = TestAccount.objects.filter(Q(email=templateEmail) & Q(testAccountOwner=request.user))
     if testAccountToDelete.exists():
       testAccountToDelete.delete()
-    else:
-      messages.error(request, "Account not found") # Todo: this will not be displayed but admin should see
   return redirect("home")

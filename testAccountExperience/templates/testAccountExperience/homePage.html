@@ -1,33 +1,13 @@
 {% extends "testAccountExperience/base.html" %}
 
-{% block title %}
-home page
-{% endblock %}
+{% block title %}home page{% endblock %}
 
-{% block header %}
-    {% include "includes/homeNavbar.html" %}
-{% endblock %}
-
+{% block header %}{% include "includes/homeNavbar.html" %}{% endblock %}
 {% block content %}
 <div class="container-fluid">
-<div class="row">
-{% include "includes/homeForm.html" %}
-{#<div class="col-2">#}
-{#    <form method="POST">#}
-{#        {% csrf_token %}#}
-{#        {% include "includes/homeForm.html" %}#}
-{##}
-{##}
-{#        {% if loggedIn %}#}
-{#        <input type="submit" value="Create account">#}
-{#        {% else %}#}
-{#            <a href="{% url 'login' %}">Login to create forms</a>#}
-{#        {% endif %}#}
-{##}
-{#    </form>#}
-{#</div>#}
-
-{% include "includes/table.html" %}
-</div>
+    <div class="row">
+    {% include "includes/homeForm.html" %}
+    {% include "includes/table.html" %}
     </div>
+</div>
 {% endblock %}

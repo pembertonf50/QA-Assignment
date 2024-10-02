@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+# Todo: add this above when pushing to prod os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # Todo: Change to False when you push to prod
+DEBUG = os.environ.get('DEBUG') == 'True' # Todo: Changes to False when you push to prod and True in dev
 
-ALLOWED_HOSTS = ["test-account-experience.onrender.com"]
-
+ALLOWED_HOSTS = ['test-account-experience.onrender.com', '127.0.0.1']
 
 # Application definition
 
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Todo: This is where new apps must be added
-    'bootstrap4',
+    'bootstrap5',
     'testAccountExperience.apps.TestaccountexperienceConfig',
 ]
 

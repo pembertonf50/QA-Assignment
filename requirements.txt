@@ -1,5 +1,5 @@
-Django==5.1
+Django==4.2.16
 faker==28.4.1
 coverage==7.6.1
 gunicorn==23.0.0
-django-bootstrap4==24.4
+django-bootstrap-v5==1.0.11
