@@ -124,6 +124,15 @@ python3 manage.py createsuperuser
 
 
 current stored account detail:
+local
+
+username: admin-local
+
+email: admin-local@dummyemail.com
+
+password: admin-local
+
+production
 
 username: admin
 
