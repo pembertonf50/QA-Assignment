@@ -19,12 +19,12 @@ def urlPlanType(lst): # Todo: Creates plantype text in virtual environment link
     return "multiplan-"
 
 def proccessTuplesForModels(tup): # Todo: Example output (('Portuguese', 'Portuguese'), ('English', 'English'), ...)
-  modelReadyTuple = ()            #  used in to make sure values stored in database come from tuple
+  modelReadyTuple = ()            #  used verify values stored in database come from tuple
   for s in tup:
     modelReadyTuple += ((s, s),)
   return modelReadyTuple
 
-def createLocationsTuple(dic): # Todo: Used to create tuple from country_iso_codes from 1 source of truth
+def createLocationsTuple(dic): # Todo: Used to create tuple from country_iso_codes ensuring 1 source of truth
   locationsTuple = ()
   for s in dic.keys():
     locationsTuple += (s,)

@@ -20,6 +20,8 @@ Usage
 
 Testing
 
+Admin
+
 Deployment
 
 
@@ -128,3 +130,19 @@ username: admin
 email: admin@dummyemail.com
 
 password: admin
+
+
+## Deployment ##
+Deployment has been done on Render.
+
+In order to deploy on render environment variables have been used to differiente the experience between prod and development such the use of DEBUG and SECRET_KEY for security reasons.
+
+In Django, there are has built-in support for creating a superuser through environment variables.
+
+The following can be used to create superuser for site:
+
+DJANGO_SUPERUSER_USERNAME
+
+DJANGO_SUPERUSER_EMAIL
+
+DJANGO_SUPERUSER_PASSWORD
