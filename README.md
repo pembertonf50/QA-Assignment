@@ -1,154 +1,107 @@
-### Django Web Application ###
+# Django Web Application #
 ## Overview ##
 Project is a visual tabular tool to store, modify and create test environments which can be easily accessed.
-The purpose of this is to easily test different countries and customer types experience under set conditions as it can be hard to identify/reproduce existing experiences.
-The purposes of this project is not to create the virtual environment required to enter experience but to enable new accounts to be created which would be used in these environments.
-The is the scope of the project.
-The project has been build with Django Python web framework.
+The purpose of this is to easily test different factors effecting customer experiences often hard to identify/reproduce.
+This project does not create functioning links to the specific testing experiences as this is out of project scope. The project has been built with Django Python web framework.
 
 
 ## Table of Contents ##
-Prerequisites
+1. Notes
+2. Prerequisites
+3. Installation
+4. Commands for working with Django
+5. Models
+6. Testing
+7. Admin
+8. Deployment
 
-Installation
-
-Setup the project
-
-Models
-
-Usage
-
-Testing
-
-Admin
-
-Deployment
+## Notes ##
+"Todo:" is used to mark non-native comments in the code and explains non-native Django project setup code.
 
 
 ## Prerequisites ##
-Before you begin, ensure you have met the following requirements:
+Ensure the following are installed:
 
 Python 3.x
-Django 3.x or later
+
+git
 
 ## Installation ##
 To set up the project locally, follow these steps:
 
-Clone the Repository:
+1. Navigate to your desired project directory
 
-bash
-Copy code
-git clone https://github.com/pembertonf50/QA-Assignment.git
+2. Clone the Repository
 
-cd your-repository
-Create a Virtual Environment:
+`git clone https://github.com/pembertonf50/QA-Assignment.git`
 
-bash
-Copy code
-python -m venv env
+3. Enter project folder and create virtual environment
 
+`python -m venv env`
 
-Activate the Virtual Environment:
+4. Activate the virtual environment
 
-On Windows:
-bash
-Copy code
-.\env\Scripts\activate
+Windows: `.\env\Scripts\activate`
 
-On macOS/Linux:
-bash
-Copy code
-source env/bin/activate
+macOS/Linux: `source env/bin/activate`
 
-Installed Dependencies should be saved to requirements.txt
+5. Install dependencies from requirements.txt
 
-bash
-Copy code
+`pip install -r requirements.txt`
 
-windows: pip install -r requirements.txt
+## Commands for working with Django ##
+`django-admin startproject myDjangoProject` **Not to be used and information only**. Was used to start the project setting up structure and adding Django native files. Also names the project mydjangoProject.
 
-mac: pip3 install -r requirements.txt
+`python manage.py startapp <app name>` **Not to be used and information only**. Creates an app folder containing Django native files.
 
-## Setup the project ##
-Commands:
+`python manage.py runserver` Used to check application locally. Command creates development server running on http://localhost:8000
 
-django-admin startproject djangoProject // this will start a project setting up structure and adding necessary files. Also names the project djangoProject
-
-python3 manage.py runserver // this setups up a development server running on http://localhost:8000
-
-python3 manage.py migrate // used to sync/cleanup the conflicts between memory stored values in models and database saved values. Used if migrations errors occur.
-
-python3 manage.py startapp <app name> // creates an app folder containing files related 
+`python manage.py migrate` Fixes common migration errors when attempting `python manage.py runserver`. Corrects the conflicts between memory stored values in models and database values.
 
 ## Models ##
-Models are used to setup database schema and commands can be used to run the necessary sql commands:
-python3 manage.py makemigrations <app name> // this will create a script to be run in migrations folder
+Models are used to set up database schema and Django functions can make changes to the database.
 
-python3 manage.py migrate // this command is used to run the generated script to make changes to the database schema
+`python manage.py makemigrations <app name>` Creates a script file in  *migrations* folder.
 
-python3 manage.py showmigrations <app name> // this is used to display the generated scripts from makemigrations such as:
-0001_initial.py
-0002_gardenmap.py
-0003_gardenemployees.py
+`python manage.py migrate` Runs the above generated script to make changes to the database.
 
-python3 manage.py migrate <app name> 0002 // this would remove 0003 and revert back to 0002
+`python manage.py showmigrations <app name>` Displays the generated scripts from makemigrations such as:
 
-## Usage ##
-Provide instructions on how to use the application. This might include:
-User are first taken to home screen where they can then navigate to login/signup.
-Home screen by default shows the overall feel of the tool to effectively explain how it is use.
-After login, user will be redirected to home where they can begin making test accounts.
+*0001_initial.py*
 
-when using admin account you can login using credential below like a regular user. You can also make use of the admin functionality by going to /admin endpoint. By login here you have access to all the users and there associated test accounts with the privilege to delete them.
+*0002_gardenmap.py*
+
+*0003_gardenemployees.py*
+
+`python manage.py migrate <app name> 0002` Example to remove 0003 and revert back to 0002.
 
 ## Testing ##
-Test are all stored in testAccountExperience/tests.py
-This is the native and intended way to create and store tests for simplicity.
+Tests are all stored in *testAccountExperience/tests.py*.
 
-All view functions have been tested and 100% coverage has been achieved for this application.
-Test can be run using python3 manage.py test or by running the testAccountExperience/tests.py in PyCharm.
+This is the native and intended location for unit tests.
 
-The reason why full coverage when only testing 1 files, is due to the following:
-
-During a test, Django has to load the classes and other modules into the memory, and hence the program (your class and settings and many other parts) get executed.
-
-So what’s happening here, is that CBVs are classes, when you run the tests Django will load them into memory, which means that they will be executed. When running the coverage, it will look for “executed” code and they will appear as tested.
-
-
-
+`python manage.py test` To run tests.
 
 ## Admin ##
-to create an admin account use the following command:
+`python3 manage.py createsuperuser` Creates admin account. Email and username should match so authentication functions work with email.
 
-python3 manage.py createsuperuser
+Current stored account detail:
+
+| Credential | POSTGRES local | Production and SQLite |
+|:----------:|:--------------:|:---------------------:|
+|  username  |  admin-local   |         admin         |
+|   email    |  admin-local   |         admin         |
+|  password  |  admin-local   |         admin         |
 
 
-current stored account detail:
-local
-
-username: admin-local
-
-email: admin-local@dummyemail.com
-
-password: admin-local
-
-production
-
-username: admin
-
-email: admin@dummyemail.com
-
-password: admin
-
+Admin account can login like a regular user. Admin has separate Django admin portal at /admin endpoint. From the admin portal, admin can access all the users and there associated test accounts and modify user data.
 
 ## Deployment ##
 Deployment has been done on Render.
 
-In order to deploy on render environment variables have been used to differiente the experience between prod and development such the use of DEBUG and SECRET_KEY for security reasons.
+To deploy on render environment variables are used to differentiate the experience between prod and dev so debug information is only shown in development.
 
-In Django, there are has built-in support for creating a superuser through environment variables.
-
-The following can be used to create superuser for site:
+The following environment variables are used to create a superuser for Render:
 
 DJANGO_SUPERUSER_USERNAME
 
