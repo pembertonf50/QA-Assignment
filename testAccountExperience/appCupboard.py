@@ -1,6 +1,7 @@
 # Todo: This file is used to remove complex logic from views and models
 
 import faker
+import logging
 
 def stringifySubscriptions(subscriptionsList): # Todo: models can't take list objects so needs converting to string
   return ', '.join(subscriptionsList)
@@ -12,11 +13,11 @@ def listifySubscriptions(querySet): # Todo: Converts the model stored subscripti
 
 def urlPlanType(lst): # Todo: Creates plantype text in virtual environment link
   if len(lst) == 0:
-    return ""
+    return ''
   elif len(lst) == 1:
-    return lst[0].lower() + "-"
+    return lst[0].lower() + '-'
   else:
-    return "multiplan-"
+    return 'multiplan-'
 
 def proccessTuplesForModels(tup): # Todo: Example output (('Portuguese', 'Portuguese'), ('English', 'English'), ...)
   modelReadyTuple = ()            #  used verify values stored in database come from tuple
@@ -36,6 +37,14 @@ def generateUniqueEmail(model): # Todo: Generates a unique test email address fo
         email = fake.email()
         if not model.objects.filter(email=email).exists():
             return email
+
+def verboseLog(message, ipAddress, userEmail, **kwargs): # Todo: log function which requires a log message, ip address
+                                                         #  and userEmail. If a form was posted the inputs can be passed
+                                                         #  to the function as keyword arguments and stored in the
+                                                         #  dictionary kwargs e.g.
+                                                         #  {'location': 'badlocation', 'language': 'Arabic'}
+  return logging.info(f'User {userEmail} with ip address {ipAddress} {message}\n'+
+                         f'User form inputs: {kwargs}')
 
 dummyAccounts = [
   {'email': 'example@gmail.com', 'password': '123456', 'location': 'Mexico', 'language': 'Malay', 'subscriptions': [],'cardSaved': False, 'addressSaved': False, 'experienceLink': 'www.example.com'},
@@ -71,50 +80,50 @@ dummyAccounts = [
 ]
 
 country_iso_codes = {
-    "Argentina": "AR",
-    "Australia": "AU",
-    "Austria": "AT",
-    "Barbados": "BB",
-    "Belgium": "BE",
-    "Brazil": "BR",
-    "Canada": "CA",
-    "Chile": "CL",
-    "Colombia": "CO",
-    "Denmark": "DK",
-    "France": "FR",
-    "Germany": "DE",
-    "Hungary": "HU",
-    "India": "IN",
-    "Indonesia": "ID",
-    "Ireland": "IE",
-    "Italy": "IT",
-    "Japan": "JP",
-    "Kenya": "KE",
-    "Luxembourg": "LU",
-    "Malaysia": "MY",
-    "Mexico": "MX",
-    "Netherlands": "NL",
-    "New Zealand": "NZ",
-    "Nigeria": "NG",
-    "Norway": "NO",
-    "Peru": "PE",
-    "Philippines": "PH",
-    "Poland": "PL",
-    "Paraguay": "PY",
-    "Romania": "RO",
-    "Saudi Arabia": "SA",
-    "Singapore": "SG",
-    "Spain": "ES",
-    "Sweden": "SE",
-    "Switzerland": "CH",
-    "Taiwan": "TW",
-    "Thailand": "TH",
-    "Turkey": "TR",
-    "United Arab Emirates": "AE",
-    "United Kingdom": "GB",
-    "United States": "US",
-    "Vietnam": "VN",
-    "South Africa": "ZA"
+    'Argentina': 'AR',
+    'Australia': 'AU',
+    'Austria': 'AT',
+    'Barbados': 'BB',
+    'Belgium': 'BE',
+    'Brazil': 'BR',
+    'Canada': 'CA',
+    'Chile': 'CL',
+    'Colombia': 'CO',
+    'Denmark': 'DK',
+    'France': 'FR',
+    'Germany': 'DE',
+    'Hungary': 'HU',
+    'India': 'IN',
+    'Indonesia': 'ID',
+    'Ireland': 'IE',
+    'Italy': 'IT',
+    'Japan': 'JP',
+    'Kenya': 'KE',
+    'Luxembourg': 'LU',
+    'Malaysia': 'MY',
+    'Mexico': 'MX',
+    'Netherlands': 'NL',
+    'New Zealand': 'NZ',
+    'Nigeria': 'NG',
+    'Norway': 'NO',
+    'Peru': 'PE',
+    'Philippines': 'PH',
+    'Poland': 'PL',
+    'Paraguay': 'PY',
+    'Romania': 'RO',
+    'Saudi Arabia': 'SA',
+    'Singapore': 'SG',
+    'Spain': 'ES',
+    'Sweden': 'SE',
+    'Switzerland': 'CH',
+    'Taiwan': 'TW',
+    'Thailand': 'TH',
+    'Turkey': 'TR',
+    'United Arab Emirates': 'AE',
+    'United Kingdom': 'GB',
+    'United States': 'US',
+    'Vietnam': 'VN',
+    'South Africa': 'ZA'
 }
 
 locations = createLocationsTuple(country_iso_codes)
@@ -131,4 +140,4 @@ languages = (
   'Norwegian'
 )
 
-subscriptions = ("PrimeVideo", "Prime", "HBO", "Paramount+")
+subscriptions = ('PrimeVideo', 'Prime', 'HBO', 'Paramount+')
