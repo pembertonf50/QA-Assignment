@@ -17,11 +17,18 @@ class TestViews(TestCase):
     self.signup_url = reverse('signup')
     self.deleteAccount_url = reverse('deleteAccount')
     self.logout_url = reverse('logout')
-    self.deleteTestAccount_url = reverse('deleteTestAccount', args=["<EMAIL>"])
+    self.deleteTestAccount_url = reverse('deleteTestAccount', args=['<EMAIL>'])
     # Todo: Omitting the save() to not dirty database with test data
     self.user = User.objects.create_user(username='testuser', email='testuser', password='password')
+    self.user2 = User.objects.create_user(username='testuser2', email='testuser2', password='password2')
 
-  'home view tests'
+  """
+  ________________________________________________
+  ########## general view + model tests ##########
+  ________________________________________________
+  """
+
+  '########## home view tests ##########'
 
   def test_home_GET_user_not_authenticated(self):
     client = Client()
@@ -34,14 +41,14 @@ class TestViews(TestCase):
   def test_home_GET_user_authenticated_with_accounts(self):
     self.client.login(username='testuser', password='password') # Todo: login to authenticate user
     testAccount = TestAccount.objects.create( # Todo: Creates a test account
-      email="<EMAIL>",
-      password="<PASSWORD>",
-      location="here",
-      language="foreign",
-      subscriptions="",
+      email='<EMAIL>',
+      password='<PASSWORD>',
+      location='here',
+      language='foreign',
+      subscriptions='',
       cardSaved=False,
       addressSaved=False,
-      experienceLink="www.yeh.com",
+      experienceLink='www.yeh.com',
       testAccountOwner=self.user
     )
     response = self.client.get(self.home_url)
@@ -72,7 +79,7 @@ class TestViews(TestCase):
     data = {'location': 'Turkey', 'language': 'Turkish', 'subscriptions': ['cool'], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
 
-    self.assertEqual(TestAccount.objects.get(location='Turkey').location, "Turkey")
+    self.assertEqual(TestAccount.objects.get(location='Turkey').location, 'Turkey')
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
@@ -80,7 +87,7 @@ class TestViews(TestCase):
     data = {'location': 'Canada', 'language': 'English', 'subscriptions': [], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
 
-    self.assertEqual(TestAccount.objects.get(location='Canada').location, "Canada")
+    self.assertEqual(TestAccount.objects.get(location='Canada').location, 'Canada')
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
@@ -89,11 +96,11 @@ class TestViews(TestCase):
             'subscriptions': ['cool', 'dead'], 'card': 'no', 'address': 'no'}
     response = self.client.post(self.home_url, data)
 
-    self.assertEqual(TestAccount.objects.get(location='United Arab Emirates').location, "United Arab Emirates")
+    self.assertEqual(TestAccount.objects.get(location='United Arab Emirates').location, 'United Arab Emirates')
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
-  'login view tests'
+  '########## login view tests ##########'
 
   def test_login_GET(self):
     response = self.client.get(self.login_url)
@@ -117,7 +124,7 @@ class TestViews(TestCase):
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
-  'signup view tests'
+  '########## signup view tests ##########'
 
   def test_signup_GET(self):
     response = self.client.get(self.signup_url)
@@ -148,7 +155,7 @@ class TestViews(TestCase):
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/login/')
 
-  'delete account view tests'
+  '########## delete account view tests ##########'
 
   def test_deleteAccount_GET(self):
     self.client.login(username='testuser', password='password')
@@ -171,7 +178,7 @@ class TestViews(TestCase):
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
-  'logout view tests'
+  '########## logout view tests ##########'
 
   def test_logout_GET(self):
     self.client.login(username='testuser', password='password')
@@ -180,19 +187,19 @@ class TestViews(TestCase):
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
 
-  'delete test account view tests'
+  '########## delete test account view tests ##########'
 
   def test_deleteTestAccount_GET(self):
     self.client.login(username='testuser', password='password')
     testAccount = TestAccount.objects.create(
-      email="<EMAIL>",
-      password="<PASSWORD>",
-      location="here",
-      language="foreign",
-      subscriptions="",
+      email='<EMAIL>',
+      password='<PASSWORD>',
+      location='here',
+      language='foreign',
+      subscriptions='',
       cardSaved=False,
       addressSaved=False,
-      experienceLink="www.yeh.com",
+      experienceLink='www.yeh.com',
       testAccountOwner=self.user
     )
     response = self.client.get(self.deleteTestAccount_url)
@@ -209,3 +216,50 @@ class TestViews(TestCase):
 
     self.assertEqual(response.status_code, 302)
     self.assertRedirects(response, '/')
+
+  """
+  ____________________________________
+  ########## security tests ##########
+  ____________________________________
+  """
+
+  '########## broken access control tests ##########'
+
+  def test_deleteTestAccount_attempt_delete_other_user_test_account(self):
+    self.client.login(username='testuser', password='password')
+
+    # Todo: creating test account for another user2
+    testAccount2 = TestAccount.objects.create(
+      email='<EMAIL>',
+      password='<PASSWOD>',
+      location='something different',
+      language='foreign',
+      subscriptions='',
+      cardSaved=False,
+      addressSaved=False,
+      experienceLink='www.yeh.com',
+      testAccountOwner=self.user2
+    )
+    response = self.client.get(self.deleteTestAccount_url)
+
+    self.assertEqual(TestAccount.objects.filter(testAccountOwner=self.user).count(), 0)
+    self.assertEqual(TestAccount.objects.get(testAccountOwner=self.user2).location, 'something different')
+    self.assertEqual(response.status_code, 302)
+    self.assertRedirects(response, '/')
+
+  '########## injection tests ##########'
+
+  def test_sql_injection_attempt(self):
+    User.objects.create_user(username="malicious_email@gmail.com'); drop table auth_user; —",
+                             email="malicious_email@gmail.com'); drop table auth_user; —",
+                             password='somethingproper12')
+    self.assertTrue(User.objects.get(email="malicious_email@gmail.com'); drop table auth_user; —"))
+
+
+
+  '########## insecure design tests ##########'
+
+  def test_passwords_are_hashed_in_databases(self):
+    # Todo: Checks only the first characters of the password hash since the rest changes each time
+    self.assertEqual((User.objects.get(username=self.user).password)[:len('pbkdf2_sha256$600000$')],
+                     'pbkdf2_sha256$600000$')
