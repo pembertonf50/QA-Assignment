@@ -7,14 +7,14 @@ from .models import TestAccount
 @admin.register(TestAccount)
 class TestAccountAdmin(admin.ModelAdmin):
   list_display = (
-    "id",
-    "email",
-    "password",
-    "location",
-    "language",
-    "subscriptions",
-    "cardSaved",
-    "addressSaved",
-    "experienceLink",
-    "testAccountOwner"
+    'id',
+    'email',
+    'password',
+    'location',
+    'language',
+    'subscriptions',
+    'cardSaved',
+    'addressSaved',
+    'experienceLink',
+    'testAccountOwner'
   )

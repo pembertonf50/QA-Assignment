@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .appCupboard import locations, languages, proccessTuplesForModels
 
 # Create your models here.
-'''
+"""
 User Model is a built in model which can be used to generate users
 Fields:
 username: A unique username for the user.
@@ -23,7 +23,7 @@ get_short_name(): Returns the user's username.
 has_perm(perm): Checks if the user has the specified permission.
 has_perms(perm_list): Checks if the user has all of the specified permissions.
 has_module_perms(app_label): Checks if the user has permissions for the specified app.
-'''
+"""
 
 class TestAccount(models.Model):
     # Todo: The use of unique and choices keyword parameters provides backend validation.
