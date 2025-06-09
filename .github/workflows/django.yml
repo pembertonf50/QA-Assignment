@@ -17,9 +17,6 @@ jobs:
       matrix:
         python-version: [3.8, 3.9]
 
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}

@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-# Todo: The above code is used to kee[ the SECRET_KEY secure
+# Todo: The above code is used to keep the SECRET_KEY secure
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == 'True' # Todo: Changes to False when you push to prod and True in dev
@@ -46,14 +46,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # Todo: whitenoise allows css and other static files to be available in prod admin endpoint
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Todo: whitenoise allows css and other static files to be available in prod admin endpoint
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'myDjangoProject.urls'
@@ -80,14 +80,23 @@ WSGI_APPLICATION = 'myDjangoProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 # Todo: Replaced the SQLite DATABASES configuration with PostgreSQL for persistent changes in database:
-DATABASE_URL = os.environ.get('DATABASE_URL')
-DATABASES = {
-    'default': dj_database_url.config(
-        # Todo this database changes depending on if its internal or external to render
-        default=DATABASE_URL,
-        conn_max_age=600
-    )
-}
+#  uncomment below to use PostgresSQL database instead standard SQLite DATABASE
+if os.environ.get('RENDER_PROD') == 'True':
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    DATABASES = {
+        'default': dj_database_url.config(
+            # Todo: this database changes depending on if its internal or external to render
+            default=DATABASE_URL,
+            conn_max_age=600
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -140,3 +149,25 @@ if os.environ.get('RENDER_PROD') == 'True':
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DJANGO_LOG_LEVEL=DEBUG
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s : %(asctime)s : %(pathname)s : %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}
