@@ -35,6 +35,7 @@ jobs:
         python manage.py test
     - name: Run Tests with Coverage
       run: |
+        coverage run manage.py test
         coverage report --omit=manage.py,myDjangoProject/settings.py --fail-under=100
     - name: Run Bandit Security Scan
       run: |
