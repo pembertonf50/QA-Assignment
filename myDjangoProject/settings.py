@@ -150,8 +150,6 @@ if os.environ.get('RENDER_PROD') == 'True':
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DJANGO_LOG_LEVEL=DEBUG
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
