@@ -1,4 +1,4 @@
-Django==4.2.21
+Django==4.2.22
 faker==28.4.1
 coverage==7.6.1
 gunicorn==23.0.0
